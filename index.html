@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Urna Eletrônica Animal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-image: url('urna-background.png'); /* Imagem de fundo da urna */
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* Moldura arredondada para a urna */
+        .urna {
+            width: 90%;
+            height: 95%;
+            background-color: #fff;
+            margin: auto;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            display: flex;
+        }
+
+        .container-fluid {
+            height: 100%;
+        }
+
+        /* Moldura para a área da ficha do candidato */
+        .left-panel {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .candidate-info, .placeholder-info {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px solid #ddd;
+            min-height: 200px;
+        }
+
+        /* Mensagem inicial "Escolha seu candidato!" */
+        .placeholder-info {
+            justify-content: center;
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            width: 100%;
+        }
+
+        /* Informações do candidato alinhadas à esquerda */
+        .candidate-details {
+            text-align: left;
+            width: 65%;
+        }
+
+        .candidate-details h2, .candidate-details h3 {
+            margin: 0;
+        }
+
+        /* Foto do candidato alinhada à direita */
+        .candidate-photo {
+            width: 30%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 15px;
+            max-width: 150px; /* Limita o tamanho da imagem */
+        }
+
+        /* Painel direito com os botões dos animais e botões de ação */
+        .right-panel {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .btn-animal {
+            width: 48%;
+            height: 120px;
+            font-size: 1.8em;
+            margin: 1%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            border: 2px solid #fff;
+            background-color: #333;
+            color: #fff;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        /* Centralizando os botões dos animais */
+        .animal-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-animal:hover {
+            transform: scale(1.05);
+            background-color: #444;
+        }
+
+        /* Botões de ação com efeito 3D */
+        .btn-action {
+            width: 32%;
+            height: 60px;
+            font-size: 1.2em;
+            margin: 1%;
+            border-radius: 10px;
+            box-shadow: 0 4px #999;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px #666;
+        }
+
+        .btn-anula {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .btn-corrige {
+            background-color: #f00;
+            color: #fff;
+        }
+
+        .btn-confirma {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .voto-confirmado {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: green;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="urna">
+        <div class="container-fluid d-flex">
+            <!-- Left Panel -->
+            <div class="left-panel col-8">
+                <!-- Placeholder inicial para exibir "Escolha seu candidato!" -->
+                <div class="placeholder-info">Escolha seu candidato!</div>
+
+                <!-- Área da ficha do candidato, inicialmente escondida -->
+                <div class="candidate-info" style="display: none;">
+                    <div class="candidate-details">
+                        <h2 class="candidate-name">Nome do Candidato</h2>
+                        <h3 class="candidate-number">Número</h3>
+                    </div>
+                    <img src="" alt="Foto do Candidato" class="candidate-photo">
+                </div>
+            </div>
+            <!-- Right Panel -->
+            <div class="right-panel col-4">
+                <div class="animal-buttons">
+                    <button class="btn btn-secondary btn-animal" data-animal="Cobra">Cobra 🐍</button>
+                    <button class="btn btn-secondary btn-animal" data-animal="Macaco">Macaco 🐵</button>
+                    <button class="btn btn-secondary btn-animal" data-animal="Leão">Leão 🦁</button>
+                    <button class="btn btn-secondary btn-animal" data-animal="Preguiça">Preguiça 🦥</button>
+                </div>
+                <div class="d-flex justify-content-between align-items-end mt-4">
+                    <button class="btn btn-anula btn-action">Anula</button>
+                    <button class="btn btn-corrige btn-action">Corrige</button>
+                    <button class="btn btn-confirma btn-action">Confirma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="voto-confirmado">VOTO CONFIRMADO</div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        const animals = {
+            'Cobra': { photo: 'cobra.jpg', name: 'Cobra', number: '01' },
+            'Macaco': { photo: 'macaco.jpg', name: 'Macaco', number: '02' },
+            'Leão': { photo: 'leao.jpg', name: 'Leão', number: '03' },
+            'Preguiça': { photo: 'preguica.jpg', name: 'Preguiça', number: '04' },
+        };
+
+        let selectedAnimal = null;
+
+        const candidatePhoto = document.querySelector('.candidate-photo');
+        const candidateName = document.querySelector('.candidate-name');
+        const candidateNumber = document.querySelector('.candidate-number');
+        const placeholderInfo = document.querySelector('.placeholder-info');
+        const candidateInfo = document.querySelector('.candidate-info');
+        const votoConfirmado = document.querySelector('.voto-confirmado');
+
+        const btnAnimals = document.querySelectorAll('.btn-animal');
+        btnAnimals.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const animalKey = btn.getAttribute('data-animal');
+                selectedAnimal = animals[animalKey];
+                mostrarFicha(selectedAnimal);
+            });
+        });
+
+        document.querySelector('.btn-anula').addEventListener('click', () => {
+            limparFicha();
+            selectedAnimal = null;
+        });
+
+        document.querySelector('.btn-corrige').addEventListener('click', () => {
+            limparFicha();
+            selectedAnimal = null;
+        });
+
+        document.querySelector('.btn-confirma').addEventListener('click', () => {
+            if (selectedAnimal) {
+                registrarVoto(selectedAnimal.name);
+                tocarSom();
+                exibirConfirmacao();
+            }
+        });
+
+        function mostrarFicha(animal) {
+            candidatePhoto.src = animal.photo;
+            candidateName.textContent = animal.name;
+            candidateNumber.textContent = 'Número: ' + animal.number;
+
+            // Esconde a mensagem inicial e exibe a ficha do candidato
+            placeholderInfo.style.display = 'none';
+            candidateInfo.style.display = 'flex';
+        }
+
+        function limparFicha() {
+            candidatePhoto.src = '';
+            candidateName.textContent = '';
+            candidateNumber.textContent = '';
+
+            // Volta a exibir a mensagem "Escolha seu candidato!"
+            placeholderInfo.style.display = 'flex';
+            candidateInfo.style.display = 'none';
+        }
+
+        function registrarVoto(animalName) {
+            let votos = JSON.parse(localStorage.getItem('votos')) || {};
+            votos[animalName] = votos[animalName] ? votos[animalName] + 1 : 1;
+            localStorage.setItem('votos', JSON.stringify(votos));
+        }
+
+        function tocarSom() {
+            const audio = new Audio('tirilim.mp3');
+            audio.play();
+        }
+
+        function exibirConfirmacao() {
+            limparFicha();
+            selectedAnimal = null;
+            document.querySelector('.container-fluid').style.display = 'none';
+            votoConfirmado.style.display = 'block';
+            setTimeout(() => {
+                votoConfirmado.style.display = 'none';
+                document.querySelector('.container-fluid').style.display = 'flex';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

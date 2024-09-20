@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados da Votação</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding: 50px;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .candidate-box {
+            width: 100%;
+            max-width: 300px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .vote-count {
+            font-size: 1.5em;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .vote-tally {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        .tally {
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .count-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .count-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resultados da Votação</h1>
+
+    <div class="container">
+        <!-- Candidato Cobra -->
+        <div class="candidate-box" id="cobra-box">
+            <img src="cobra.jpg" class="candidate-photo" alt="Cobra">
+            <h2>Cobra</h2>
+            <div class="vote-tally" id="cobra-tally"></div>
+            <div class="vote-count" id="cobra-count">Votos: 0</div>
+        </div>
+
+        <!-- Candidato Macaco -->
+        <div class="candidate-box" id="macaco-box">
+            <img src="macaco.jpg" class="candidate-photo" alt="Macaco">
+            <h2>Macaco</h2>
+            <div class="vote-tally" id="macaco-tally"></div>
+            <div class="vote-count" id="macaco-count">Votos: 0</div>
+        </div>
+
+        <!-- Candidato Leão -->
+        <div class="candidate-box" id="leao-box">
+            <img src="leao.jpg" class="candidate-photo" alt="Leão">
+            <h2>Leão</h2>
+            <div class="vote-tally" id="leao-tally"></div>
+            <div class="vote-count" id="leao-count">Votos: 0</div>
+        </div>
+
+        <!-- Candidato Preguiça -->
+        <div class="candidate-box" id="preguica-box">
+            <img src="preguica.jpg" class="candidate-photo" alt="Preguiça">
+            <h2>Preguiça</h2>
+            <div class="vote-tally" id="preguica-tally"></div>
+            <div class="vote-count" id="preguica-count">Votos: 0</div>
+        </div>
+    </div>
+
+    <button class="count-btn" id="count-votes-btn">Contar Votos</button>
+
+    <!-- Custom JS -->
+    <script>
+        const votos = JSON.parse(localStorage.getItem('votos')) || {
+            'Cobra': 0,
+            'Macaco': 0,
+            'Leão': 0,
+            'Preguiça': 0
+        };
+
+        const intervalo = 500; // Intervalo em milissegundos entre cada voto contado
+
+        // Elementos de cada candidato
+        const cobraTally = document.getElementById('cobra-tally');
+        const macacoTally = document.getElementById('macaco-tally');
+        const leaoTally = document.getElementById('leao-tally');
+        const preguicaTally = document.getElementById('preguica-tally');
+
+        const cobraCount = document.getElementById('cobra-count');
+        const macacoCount = document.getElementById('macaco-count');
+        const leaoCount = document.getElementById('leao-count');
+        const preguicaCount = document.getElementById('preguica-count');
+
+        const contarVotosBtn = document.getElementById('count-votes-btn');
+
+        function contarVotos(animal, votosTotais, tallyEl, countEl) {
+            let votosAtual = 0;
+            const intervaloVotos = setInterval(() => {
+                if (votosAtual < votosTotais) {
+                    tallyEl.innerHTML += '|';
+                    votosAtual++;
+                    countEl.innerHTML = `Votos: ${votosAtual}`;
+                } else {
+                    clearInterval(intervaloVotos);
+                }
+            }, intervalo);
+        }
+
+        contarVotosBtn.addEventListener('click', () => {
+            contarVotos('Cobra', votos['Cobra'], cobraTally, cobraCount);
+            contarVotos('Macaco', votos['Macaco'], macacoTally, macacoCount);
+            contarVotos('Leão', votos['Leão'], leaoTally, leaoCount);
+            contarVotos('Preguiça', votos['Preguiça'], preguicaTally, preguicaCount);
+        });
+    </script>
+</body>
+</html>
