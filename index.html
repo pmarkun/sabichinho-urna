@@ -10,153 +10,176 @@
         html, body {
             height: 100%;
             margin: 0;
-            background-image: url('urna-background.png'); /* Imagem de fundo da urna */
-            background-size: cover;
-            background-position: center;
+            background-color: #f5b443; /* Cor de fundo fora da urna */
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Moldura arredondada para a urna */
         .urna {
-            width: 90%;
-            height: 95%;
+            width: 80%; /* A largura da urna será 80% da tela */
+            max-width: 1200px; /* Define um limite máximo de largura */
+            height: auto; /* Ajuste automático da altura */
+            aspect-ratio: 4/3; /* Mantém a proporção de aspecto */
+            min-height: 600px; /* Altura mínima para garantir o tamanho adequado */
             background-color: #fff;
-            margin: auto;
             border-radius: 30px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
             display: flex;
+            overflow: hidden;
         }
 
         .container-fluid {
             height: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
 
-        /* Moldura para a área da ficha do candidato */
+        /* Painel esquerdo para a exibição do candidato */
         .left-panel {
             background-color: #fff;
-            padding: 20px;
+            width: 70%; /* Ligeiramente maior para dar mais espaço para a exibição */
+            padding: 0;
             border-radius: 20px;
             margin: 20px;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .candidate-info, .placeholder-info {
-            margin-top: 50px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            border-radius: 20px;
-            border: 2px solid #ddd;
-            min-height: 200px;
-        }
-
-        /* Mensagem inicial "Escolha seu candidato!" */
-        .placeholder-info {
             justify-content: center;
-            text-align: center;
-            font-size: 2em;
-            color: #333;
+            overflow: hidden; /* Evita que a imagem do candidato extrapole o painel */
+            min-height: 560px; /* Altura mínima para manter o tamanho do painel dos candidatos */
+        }
+
+        /* Área da ficha do candidato com imagem */
+        .candidate-info img {
             width: 100%;
-        }
-
-        /* Informações do candidato alinhadas à esquerda */
-        .candidate-details {
-            text-align: left;
-            width: 65%;
-        }
-
-        .candidate-details h2, .candidate-details h3 {
-            margin: 0;
-        }
-
-        /* Foto do candidato alinhada à direita */
-        .candidate-photo {
-            width: 30%;
             height: auto;
-            object-fit: cover;
-            border-radius: 15px;
-            max-width: 150px; /* Limita o tamanho da imagem */
+            object-fit: contain; /* Mantém a proporção da imagem do candidato */
+        }
+
+        /* Imagem inicial "Escolha seu candidato!" */
+        .placeholder-info img {
+            width: 100%;
+            height: auto;
         }
 
         /* Painel direito com os botões dos animais e botões de ação */
         .right-panel {
             background-color: #000;
             color: #fff;
-            padding: 20px;
-            border-radius: 20px;
+            width: 30%;
             margin: 20px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: space-between;
+            padding: 20px;
+        }
+
+        .animal-buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
         .btn-animal {
-            width: 48%;
-            height: 120px;
-            font-size: 1.8em;
-            margin: 1%;
+            width: 100px;
+            height: 100px;
+            font-size: 0; /* Esconde o texto */
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 20px;
-            border: 2px solid #fff;
-            background-color: #333;
-            color: #fff;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        /* Centralizando os botões dos animais */
-        .animal-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-animal:hover {
-            transform: scale(1.05);
-            background-color: #444;
-        }
-
-        /* Botões de ação com efeito 3D */
-        .btn-action {
-            width: 32%;
-            height: 60px;
-            font-size: 1.2em;
-            margin: 1%;
             border-radius: 10px;
-            box-shadow: 0 4px #999;
-            transition: all 0.2s ease;
+            background-size: contain; /* Mostra a imagem inteira */
+            background-position: center;
+            background-repeat: no-repeat; /* Impede a repetição da imagem */
+            border: none; /* Remove borda padrão */
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
-        .btn-action:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px #666;
+        /* Botões de animais */
+        .btn-animal[data-animal="Cobra"] {
+            background-image: url('static/button-cobra.jpg');
+        }
+        .btn-animal[data-animal="Macaco"] {
+            background-image: url('static/button-macaco.jpg');
+        }
+        .btn-animal[data-animal="Leão"] {
+            background-image: url('static/button-leao.jpg');
+        }
+        .btn-animal[data-animal="Preguiça"] {
+            background-image: url('static/button-preguica.jpg');
         }
 
-        .btn-anula {
-            background-color: #fff;
-            color: #000;
+        /* Hover e active dos botões de animais */
+        .btn-animal[data-animal="Cobra"]:hover {
+            background-image: url('static/button-cobra-hover.jpg');
+        }
+        .btn-animal[data-animal="Cobra"]:active {
+            background-image: url('static/button-cobra-click.jpg');
+        }
+        .btn-animal[data-animal="Macaco"]:hover {
+            background-image: url('static/button-macaco-hover.jpg');
+        }
+        .btn-animal[data-animal="Macaco"]:active {
+            background-image: url('static/button-macaco-click.jpg');
+        }
+        .btn-animal[data-animal="Leão"]:hover {
+            background-image: url('static/button-leao-hover.jpg');
+        }
+        .btn-animal[data-animal="Leão"]:active {
+            background-image: url('static/button-leao-click.jpg');
+        }
+        .btn-animal[data-animal="Preguiça"]:hover {
+            background-image: url('static/button-preguica-hover.jpg');
+        }
+        .btn-animal[data-animal="Preguiça"]:active {
+            background-image: url('static/button-preguica-click.jpg');
         }
 
-        .btn-corrige {
-            background-color: #f00;
-            color: #fff;
+        /* Botões de ação */
+        .btn-action {
+            width: 100%;
+            height: 60px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
         .btn-confirma {
-            background-color: #0f0;
-            color: #000;
+            background-image: url('static/button-confirma.jpg');
+        }
+        .btn-confirma:hover {
+            background-image: url('static/button-confirma-hover.jpg');
+        }
+        .btn-corrige {
+            background-image: url('static/button-corrige.jpg');
+        }
+        .btn-corrige:hover {
+            background-image: url('static/button-corrige-hover.jpg');
         }
 
+        /* Imagem de confirmação de voto */
         .voto-confirmado {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 3em;
-            color: green;
             display: none;
+        }
+        .voto-confirmado img {
+            width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -164,69 +187,62 @@
     <div class="urna">
         <div class="container-fluid d-flex">
             <!-- Left Panel -->
-            <div class="left-panel col-8">
-                <!-- Placeholder inicial para exibir "Escolha seu candidato!" -->
-                <div class="placeholder-info">Escolha seu candidato!</div>
+            <div class="left-panel">
+                <!-- Imagem inicial "Escolha seu candidato!" -->
+                <div class="placeholder-info">
+                    <img src="static/choose-your-candidate.png" alt="Escolha seu candidato">
+                </div>
 
-                <!-- Área da ficha do candidato, inicialmente escondida -->
+                <!-- Área da ficha do candidato com imagem -->
                 <div class="candidate-info" style="display: none;">
-                    <div class="candidate-details">
-                        <h2 class="candidate-name">Nome do Candidato</h2>
-                        <h3 class="candidate-number">Número</h3>
-                    </div>
-                    <img src="" alt="Foto do Candidato" class="candidate-photo">
+                    <img src="" alt="Foto do Candidato">
                 </div>
             </div>
             <!-- Right Panel -->
-            <div class="right-panel col-4">
+            <div class="right-panel">
                 <div class="animal-buttons">
-                    <button class="btn btn-secondary btn-animal" data-animal="Cobra">Cobra 🐍</button>
-                    <button class="btn btn-secondary btn-animal" data-animal="Macaco">Macaco 🐵</button>
-                    <button class="btn btn-secondary btn-animal" data-animal="Leão">Leão 🦁</button>
-                    <button class="btn btn-secondary btn-animal" data-animal="Preguiça">Preguiça 🦥</button>
+                    <button class="btn btn-animal" data-animal="Cobra">Cobra</button>
+                    <button class="btn btn-animal" data-animal="Macaco">Macaco</button>
+                    <button class="btn btn-animal" data-animal="Leão">Leão</button>
+                    <button class="btn btn-animal" data-animal="Preguiça">Preguiça</button>
                 </div>
-                <div class="d-flex justify-content-between align-items-end mt-4">
-                    <button class="btn btn-anula btn-action">Anula</button>
-                    <button class="btn btn-corrige btn-action">Corrige</button>
-                    <button class="btn btn-confirma btn-action">Confirma</button>
+                <div class="mt-4 w-100 d-flex flex-column gap-3">
+                    <button class="btn btn-corrige btn-action"></button>
+                    <button class="btn btn-confirma btn-action"></button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="voto-confirmado">VOTO CONFIRMADO</div>
+    <div class="voto-confirmado">
+        <img src="static/vote-confirmed.jpg" alt="Voto Confirmado">
+    </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script>
         const animals = {
-            'Cobra': { photo: 'cobra.jpg', name: 'Cobra', number: '01' },
-            'Macaco': { photo: 'macaco.jpg', name: 'Macaco', number: '02' },
-            'Leão': { photo: 'leao.jpg', name: 'Leão', number: '03' },
-            'Preguiça': { photo: 'preguica.jpg', name: 'Preguiça', number: '04' },
+            'Cobra': { photo: 'static/candidate-cobra.jpg' },
+            'Macaco': { photo: 'static/candidate-macaco.jpg' },
+            'Leão': { photo: 'static/candidate-leao.jpg' },
+            'Preguiça': { photo: 'static/candidate-preguica.jpg' }
         };
 
         let selectedAnimal = null;
 
-        const candidatePhoto = document.querySelector('.candidate-photo');
-        const candidateName = document.querySelector('.candidate-name');
-        const candidateNumber = document.querySelector('.candidate-number');
+        const candidateInfo = document.querySelector('.candidate-info img');
         const placeholderInfo = document.querySelector('.placeholder-info');
-        const candidateInfo = document.querySelector('.candidate-info');
-        const votoConfirmado = document.querySelector('.voto-confirmado');
-
+        const candidateContainer = document.querySelector('.candidate-info');
+        const votoConfirmado = document.querySelector('.voto-confirmado img');
         const btnAnimals = document.querySelectorAll('.btn-animal');
+        const audio = new Audio('static/tirilim.mp3'); // Caminho atualizado
+
         btnAnimals.forEach(btn => {
             btn.addEventListener('click', () => {
                 const animalKey = btn.getAttribute('data-animal');
                 selectedAnimal = animals[animalKey];
                 mostrarFicha(selectedAnimal);
             });
-        });
-
-        document.querySelector('.btn-anula').addEventListener('click', () => {
-            limparFicha();
-            selectedAnimal = null;
         });
 
         document.querySelector('.btn-corrige').addEventListener('click', () => {
@@ -236,52 +252,40 @@
 
         document.querySelector('.btn-confirma').addEventListener('click', () => {
             if (selectedAnimal) {
-                registrarVoto(selectedAnimal.name);
+                registrarVoto(selectedAnimal);
                 tocarSom();
                 exibirConfirmacao();
             }
         });
 
         function mostrarFicha(animal) {
-            candidatePhoto.src = animal.photo;
-            candidateName.textContent = animal.name;
-            candidateNumber.textContent = 'Número: ' + animal.number;
-
-            // Esconde a mensagem inicial e exibe a ficha do candidato
+            candidateInfo.src = animal.photo;
             placeholderInfo.style.display = 'none';
-            candidateInfo.style.display = 'flex';
+            candidateContainer.style.display = 'flex';
         }
 
         function limparFicha() {
-            candidatePhoto.src = '';
-            candidateName.textContent = '';
-            candidateNumber.textContent = '';
-
-            // Volta a exibir a mensagem "Escolha seu candidato!"
+            candidateInfo.src = '';
             placeholderInfo.style.display = 'flex';
-            candidateInfo.style.display = 'none';
+            candidateContainer.style.display = 'none';
         }
 
-        function registrarVoto(animalName) {
-            let votos = JSON.parse(localStorage.getItem('votos')) || {};
-            votos[animalName] = votos[animalName] ? votos[animalName] + 1 : 1;
-            localStorage.setItem('votos', JSON.stringify(votos));
+        function registrarVoto(animal) {
+            console.log(`Votou em: ${animal.photo}`);
         }
 
         function tocarSom() {
-            const audio = new Audio('tirilim.mp3');
             audio.play();
         }
 
         function exibirConfirmacao() {
             limparFicha();
-            selectedAnimal = null;
             document.querySelector('.container-fluid').style.display = 'none';
-            votoConfirmado.style.display = 'block';
-            setTimeout(() => {
-                votoConfirmado.style.display = 'none';
+            document.querySelector('.voto-confirmado').style.display = 'block';
+            audio.onended = () => {
+                document.querySelector('.voto-confirmado').style.display = 'none';
                 document.querySelector('.container-fluid').style.display = 'flex';
-            }, 1000);
+            };
         }
     </script>
 </body>
